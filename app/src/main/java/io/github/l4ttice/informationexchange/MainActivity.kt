@@ -1,9 +1,10 @@
 package io.github.l4ttice.informationexchange
 
-import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.design.widget.TabLayout
+import android.support.v4.view.ViewPager
+import android.support.v7.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
@@ -42,5 +43,17 @@ class MainActivity : AppCompatActivity() {
                             .build(),
                     RC_SIGN_IN)
         }
+
+        // Find the view pager that will allow the user to swipe between fragments
+        val pager: ViewPager = findViewById(R.id.viewpager)
+        val tabBar: TabLayout = findViewById(R.id.sliding_tabs)
+
+        // Create an adapter that knows which fragment should be shown on each page
+        val PostAdapter = PostFragmentPagerAdapter(supportFragmentManager)
+
+        // Set the adapter onto the view pager
+        pager.adapter = PostAdapter
+        tabBar.setupWithViewPager(pager)
+
     }
 }
