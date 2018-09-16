@@ -16,10 +16,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,9 +24,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Dummy"
-            android:label="@string/title_activity_dummy"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".PostDetailsActivity"
+            android:label="@string/title_activity_post_details"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

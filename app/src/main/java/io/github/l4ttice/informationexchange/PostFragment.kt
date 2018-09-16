@@ -3,19 +3,16 @@ package io.github.l4ttice.informationexchange
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import io.github.l4ttice.informationexchange.DBUtils.databasePosts
 import kotlinx.android.synthetic.main.fragment_post.*
 
-
 class PostFragment : Fragment() {
-
-    lateinit var databasePosts: DatabaseReference
 
     fun showSnackbar(id: String) {
         Snackbar.make(activity!!.findViewById(R.id.parent), id, Snackbar.LENGTH_LONG).show()
@@ -39,12 +36,14 @@ class PostFragment : Fragment() {
     }
 
     fun makePost() {
-        databasePosts = FirebaseDatabase.getInstance().getReference("post")
+
         val PID = databasePosts.push().key.toString()
         val mUser = FirebaseAuth.getInstance().currentUser
         val UID = mUser!!.uid
         val postTitle = titleID.text.toString()
         val postContent = contentID.text.toString()
+
+        //DBUtils.checkNewUserv2(UID)
 
         //val data = HashMap<String, kotlin.Any>()
         //data["UID"] = UID
@@ -53,9 +52,19 @@ class PostFragment : Fragment() {
         //data["timestamp"] = ServerValue.TIMESTAMP
 
         val data = Post(postTitle, postContent, UID)
+        data.count = PostStats.wordcount(postContent)
+        data.PID = PID
+
+        data.value = (huffmanCode(postContent).encodedStringLength / 10) / data.count
         databasePosts.child(PID).setValue(data)
 
+        Log.w("POST_FRAG", "POSTED")
+
+        DBUtils.updateUser(UID, data.value)
+
         showSnackbar("Post Successful.")
+        titleID.setText("")
+        contentID.setText("")
 
     }
 }

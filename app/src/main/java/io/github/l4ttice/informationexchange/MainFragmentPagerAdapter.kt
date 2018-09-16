@@ -4,14 +4,14 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 
-class PostFragmentPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class MainFragmentPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     private var TabTitles = arrayOf("Post", "View")
 
     override fun getItem(position: Int): Fragment {
         when (position) {
             0 -> return PostFragment()
-            else -> return PostFragment()
+            else -> return ViewFragment()
         }
     }
 
